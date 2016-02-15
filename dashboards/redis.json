@@ -1,0 +1,301 @@
+{
+	"board_title": "Example Redis Dashboard",
+	"board_bgtype": "board_graph",
+	"original_title": "",
+	"height": 91,
+	"width": "100%",
+	"template_variables": [{
+		"default": "*",
+		"prefix": null,
+		"name": "scope"
+	}],
+	"templated": true,
+	"widgets": [{
+		"title_size": 16,
+		"title": true,
+		"title_align": "left",
+		"title_text": "Used memory",
+		"height": 13,
+		"tile_def": {
+			"viz": "timeseries",
+			"requests": [{
+				"q": "sum:from_pcf.p_redis.p_redis_info_memory_used_memory{$scope}",
+				"aggregator": "avg",
+				"conditional_formats": [],
+				"type": "area"
+			}]
+		},
+		"width": 100,
+		"timeframe": "1d",
+		"y": 16,
+		"x": 34,
+		"legend_size": "0",
+		"type": "timeseries",
+		"legend": false
+	}, {
+		"metric": "redis.clients.blocked",
+		"text_align": "center",
+		"query": "sum:redis.clients.blocked{$scope}",
+		"text_size": "auto",
+		"title_size": 16,
+		"title": true,
+		"aggregator": "max",
+		"title_align": "left",
+		"custom_unit": null,
+		"width": 16,
+		"timeframe": "5m",
+		"legend_size": "0",
+		"type": "query_value",
+		"tags": ["$scope"],
+		"precision": 0,
+		"title_text": "Blocked clients",
+		"x": 0,
+		"metric_type": "standard",
+		"autoscale": true,
+		"height": 6,
+		"legend": false,
+		"conditional_formats": [{
+			"palette": "white_on_red",
+			"comparator": ">",
+			"invert": false,
+			"value": 1,
+			"custom_bg_color": null,
+			"custom_fg_color": null
+		}, {
+			"palette": "white_on_green",
+			"comparator": "<",
+			"invert": false,
+			"value": 1,
+			"custom_bg_color": null,
+			"custom_fg_color": null
+		}],
+		"is_valid_query": true,
+		"tile_def": {
+			"autoscale": true,
+			"text_align": "center",
+			"precision": 0,
+			"custom_unit": null,
+			"viz": "query_value",
+			"requests": [{
+				"q": "sum:from_pcf.p_redis.p_redis_info_clients_blocked_clients{$scope}",
+				"aggregator": "max",
+				"conditional_formats": [{
+					"palette": "white_on_red",
+					"comparator": ">",
+					"invert": false,
+					"value": 1,
+					"custom_bg_color": null,
+					"custom_fg_color": null
+				}, {
+					"palette": "white_on_green",
+					"comparator": "<",
+					"invert": false,
+					"value": 1,
+					"custom_bg_color": null,
+					"custom_fg_color": null
+				}]
+			}]
+		},
+		"res_calc_func": "raw",
+		"aggr": "sum",
+		"y": 16,
+		"calc_func": "raw"
+	}, {
+		"title_size": 16,
+		"title": true,
+		"title_align": "left",
+		"title_text": "Connected clients",
+		"height": 12,
+		"tile_def": {
+			"viz": "timeseries",
+			"requests": [{
+				"q": "sum:from_pcf.p_redis.p_redis_info_clients_connected_clients{$scope}",
+				"aggregator": "avg",
+				"conditional_formats": [],
+				"type": "area",
+				"style": {
+					"palette": "cool"
+				}
+			}]
+		},
+		"width": 100,
+		"timeframe": "1d",
+		"y": 0,
+		"x": 34,
+		"legend_size": "0",
+		"type": "timeseries",
+		"legend": false
+	}, {
+		"metric": "redis.keys",
+		"text_align": "left",
+		"query": "sum:redis.keys{$scope}",
+		"text_size": "auto",
+		"title_size": 16,
+		"title": true,
+		"aggregator": "max",
+		"title_align": "left",
+		"custom_unit": null,
+		"width": 15,
+		"timeframe": "5m",
+		"legend_size": "0",
+		"type": "query_value",
+		"tags": ["$scope"],
+		"precision": 2,
+		"title_text": "Available",
+		"x": 17,
+		"metric_type": "standard",
+		"autoscale": true,
+		"height": 6,
+		"legend": false,
+		"conditional_formats": [{
+			"palette": "white_on_green",
+			"comparator": ">",
+			"invert": false,
+			"value": 0,
+			"custom_bg_color": null,
+			"custom_fg_color": null
+		}],
+		"is_valid_query": true,
+		"tile_def": {
+			"autoscale": true,
+			"text_align": "left",
+			"precision": 2,
+			"custom_unit": null,
+			"viz": "query_value",
+			"requests": [{
+				"q": "sum:from_pcf.p_redis.p_redis_broker_dedicated_vm_plan_available_instances{$scope}",
+				"aggregator": "max",
+				"conditional_formats": [{
+					"value": 3,
+					"custom_bg_color": null,
+					"palette": "white_on_green",
+					"custom_fg_color": null,
+					"comparator": ">"
+				}, {
+					"palette": "white_on_yellow",
+					"comparator": "<",
+					"value": 3
+				}, {
+					"palette": "white_on_red",
+					"comparator": "<=",
+					"value": 1
+				}]
+			}]
+		},
+		"res_calc_func": "raw",
+		"aggr": "sum",
+		"y": 16,
+		"calc_func": "raw"
+	}, {
+		"sizing": "fit",
+		"title_size": 16,
+		"title": true,
+		"url": "https://app.datadoghq.com/static/images/saas_logos/bot/redis.png",
+		"margin": "",
+		"title_align": "left",
+		"title_text": "",
+		"height": 9,
+		"width": 16,
+		"y": 0,
+		"x": 0,
+		"type": "image"
+	}, {
+		"metric": "",
+		"text_align": "center",
+		"query": "(avg:from_pcf.p_redis.p_redis_info_stats_keyspace_hits{$scope} / ( avg:from_pcf.p_redis.p_redis_info_stats_keyspace_hits{$scope} + avg:from_pcf.p_redis.p_redis_info_stats_keyspace_misses{$scope} ) ) * 100",
+		"text_size": "auto",
+		"title_size": 16,
+		"title": true,
+		"aggregator": "avg",
+		"title_align": "left",
+		"custom_unit": "%",
+		"width": 15,
+		"timeframe": "5m",
+		"legend_size": "0",
+		"type": "query_value",
+		"tags": [],
+		"precision": 0,
+		"title_text": "Hit rate",
+		"calc_func": "raw",
+		"metric_type": "standard",
+		"autoscale": false,
+		"height": 7,
+		"legend": false,
+		"conditional_formats": [{
+			"palette": "white_on_red",
+			"comparator": "<",
+			"invert": false,
+			"value": 75,
+			"custom_bg_color": null,
+			"custom_fg_color": null
+		}, {
+			"palette": "white_on_yellow",
+			"comparator": "<=",
+			"invert": false,
+			"value": 89,
+			"custom_bg_color": null,
+			"custom_fg_color": null
+		}, {
+			"palette": "white_on_green",
+			"comparator": ">=",
+			"invert": false,
+			"value": 90,
+			"custom_bg_color": null,
+			"custom_fg_color": null
+		}],
+
+		"tile_def": {
+			"autoscale": false,
+			"text_align": "center",
+			"precision": 0,
+			"custom_unit": "%",
+			"viz": "query_value",
+			"requests": [{
+				"q": "( avg:from_pcf.p_redis.p_redis_info_stats_keyspace_hits{$scope} / ( avg:from_pcf.p_redis.p_redis_info_stats_keyspace_hits{$scope} + avg:from_pcf.p_redis.p_redis_info_stats_keyspace_misses{$scope} ) ) * 100",
+				"aggregator": "avg",
+				"conditional_formats": [{
+					"palette": "white_on_red",
+					"comparator": "<",
+					"invert": false,
+					"value": 75,
+					"custom_bg_color": null,
+					"custom_fg_color": null
+				}, {
+					"palette": "white_on_yellow",
+					"comparator": "<=",
+					"invert": false,
+					"value": 89,
+					"custom_bg_color": null,
+					"custom_fg_color": null
+				}, {
+					"palette": "white_on_green",
+					"comparator": ">=",
+					"invert": false,
+					"value": 90,
+					"custom_bg_color": null,
+					"custom_fg_color": null
+				}]
+			}]
+		},
+		"res_calc_func": "raw",
+		"aggr": "avg",
+		"y": 0,
+		"x": 17
+	}, {
+		"title_size": 16,
+		"title": true,
+		"color": "#4d4d4d",
+		"text": "Dedicated VMs",
+		"title_align": "left",
+		"text_align": "left",
+		"title_text": "",
+		"height": 4,
+		"width": 20,
+		"y": 11,
+		"x": 5,
+		"font_size": "auto",
+		"type": "free_text"
+	}],
+	"shared": false,
+	"title_edited": false
+}

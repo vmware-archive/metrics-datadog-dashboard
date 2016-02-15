@@ -1,4 +1,5 @@
 require 'dogapi'
+require 'json'
 
 class MetricsToDatadog
 
@@ -6,7 +7,7 @@ class MetricsToDatadog
     if api_key.nil? || app_key.nil? then
       raise RuntimeError, "Please provide your datadog app and api keys"
     end
-    @dogclient = Dogapi::Client.new(app_key, api_key)
+    @dogclient = Dogapi::Client.new(api_key, app_key)
   end
 
   def set_datadog(datadog)
@@ -19,9 +20,20 @@ class MetricsToDatadog
     end
 
     File.open(dashboard_config) do |file|
-      @dogclient.create_screenboard(file.read.strip)
+      dashboard = JSON.parse(file.read.strip)
+      @dogclient.create_screenboard(dashboard)
     end
 
+  end
+
+  def get_all_screenboards
+    screenboards = @dogclient.get_all_screenboards()
+    JSON.dump(screenboards)
+  end
+
+  def get_screenboard(screenboard_id)
+    screenboard = @dogclient.get_screenboard(screenboard_id)
+    JSON.dump(screenboard)
   end
 
 end

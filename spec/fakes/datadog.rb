@@ -7,6 +7,13 @@ module MockDataDogApi
     class ScreenboardService
       def create_screenboard(description)
       end
+
+      def get_all_screenboards
+      end
+
+      def get_screenboard(id)
+      end
+
     end
   end
 end
