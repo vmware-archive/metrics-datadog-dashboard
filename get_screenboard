@@ -14,6 +14,7 @@ end
 
 metrics = MetricsToDatadog.new(app_key, api_key)
 
-screenboard_json = metrics.get_screenboard(screenboard_id)
+response = JSON.parse(metrics.get_screenboard(screenboard_id))
+screenboard = response[1]
 
-File.open('screenboard.json', 'w') { |file| file.write(screenboard_json) }
+puts JSON.dump(screenboard)

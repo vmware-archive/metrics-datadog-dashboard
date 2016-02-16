@@ -12,6 +12,7 @@ end
 
 metrics = MetricsToDatadog.new(app_key, api_key)
 
-all_screenboards_json = metrics.get_all_screenboards
+response = JSON.parse(metrics.get_all_screenboards)
+all_screenboards_json = response[1]
 
-File.open('dave2.json', 'w') { |file| file.write(all_screenboards_json) }
+puts JSON.dump(all_screenboards_json)
