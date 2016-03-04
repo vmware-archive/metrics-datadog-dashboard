@@ -6,7 +6,7 @@ To upload a dashboard to Datadog:
 
 ```
 export DATADOG_API_KEY=theapikey
-export DATADOG_API_KEY=theappkey
+export DATADOG_APP_KEY=theappkey
 ```
 
 2. run `import_dashboard [FILENAME]`, passing in the name of the file that contains your dashboard configuration. See `dashboards/redis.json` for an example.
