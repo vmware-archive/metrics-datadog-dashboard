@@ -25,7 +25,6 @@ RSpec.describe MetricsToDatadog do
       expect(mock_datadog).to receive(:create_screenboard).with(JSON.parse( "{\"name\":\"redis\"}") )
       metrics.set_dashboard("./spec/fakes/redis.json")
     end
-
   end
 
   context "#get_all_screenboards" do
@@ -37,7 +36,6 @@ RSpec.describe MetricsToDatadog do
 
       metrics.get_all_screenboards()
     end
-
   end
 
   context "#get_screenboard" do
@@ -48,7 +46,16 @@ RSpec.describe MetricsToDatadog do
       expect(mock_datadog).to receive(:get_screenboard).with("screenboard_id")
       metrics.get_screenboard("screenboard_id")
     end
+  end
 
+  context "#get_monitor" do
+    it "should get the monitor with the specified ID" do
+      mock_datadog = MockDataDogApi::V1::ScreenboardService.new
+      metrics.set_datadog(mock_datadog)
+
+      expect(mock_datadog).to receive(:get_monitor).with("monitor_id")
+      metrics.get_monitor("monitor_id")
+    end
   end
 
 end

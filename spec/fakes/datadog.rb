@@ -14,6 +14,8 @@ module MockDataDogApi
       def get_screenboard(id)
       end
 
+      def get_monitor(id)
+      end
     end
   end
 end
