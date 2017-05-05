@@ -2,7 +2,7 @@
 
 require_relative 'lib/metrics_to_datadog'
 
-app_key =ENV['DATADOG_APP_KEY']
+app_key = ENV['DATADOG_APP_KEY']
 api_key = ENV['DATADOG_API_KEY']
 
 screenboard_id = ARGV[0]

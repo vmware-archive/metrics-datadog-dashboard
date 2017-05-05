@@ -1,0 +1,7 @@
+---
+vm_guids:
+  - 628fd3ea-bd68-43fb-9ac7-e6dc68520f88
+  - 47590bfa-02d0-459b-a907-28d2ba4ba95a
+  - 946b03a5-42ef-418c-aa80-95810da3219b
+deployment_name: p-mysql
+nozzle_name: datadog.nozzle
