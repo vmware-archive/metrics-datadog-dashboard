@@ -6,8 +6,8 @@
   "width": "100%",
   "template_variables": [
     {
-      "default": "*",
-      "prefix": null,
+      "default": "deployment:cf-redis",
+      "prefix": "deployment",
       "name": "scope"
     }
   ],
@@ -23,7 +23,7 @@
         "viz": "timeseries",
         "requests": [
           {
-            "q": "( avg:<< MetricPrefix >>p_redis.p_redis_info_stats_keyspace_hits{$scope} / ( avg:<< MetricPrefix >>p_redis.p_redis_info_stats_keyspace_hits{$scope} + avg:<< MetricPrefix >>p_redis.p_redis_info_stats_keyspace_misses{$scope} ) ) * 100",
+            "q": "( avg:datadog.nozzle.p_redis.p_redis_info_stats_keyspace_hits{$scope} / ( avg:datadog.nozzle.p_redis.p_redis_info_stats_keyspace_hits{$scope} + avg:datadog.nozzle.p_redis.p_redis_info_stats_keyspace_misses{$scope} ) ) * 100",
             "aggregator": "avg",
             "conditional_formats": [],
             "type": "line"
@@ -36,34 +36,6 @@
             "val": 100,
             "value": "y = 100",
             "label": "Ideal hit rate"
-          }
-        ]
-      },
-      "width": 47,
-      "timeframe": "1d",
-      "y": 49,
-      "x": 1,
-      "legend_size": "0",
-      "type": "timeseries",
-      "legend": false
-    },
-    {
-      "title_size": 16,
-      "title": true,
-      "title_align": "left",
-      "title_text": "Latency (in ms)",
-      "height": 13,
-      "tile_def": {
-        "viz": "timeseries",
-        "requests": [
-          {
-            "q": "avg:<< MetricPrefix >>router_0.latency{$scope}",
-            "aggregator": "avg",
-            "conditional_formats": [],
-            "type": "line",
-            "style": {
-              "palette": "orange"
-            }
           }
         ]
       },
@@ -85,7 +57,7 @@
         "viz": "timeseries",
         "requests": [
           {
-            "q": "sum:<< MetricPrefix >>p_redis.p_redis_info_memory_used_memory{$scope}",
+            "q": "sum:datadog.nozzle.p_redis.p_redis_info_memory_used_memory{$scope}",
             "aggregator": "avg",
             "conditional_formats": [],
             "type": "area"
@@ -102,14 +74,14 @@
     },
     {
       "metric": "redis.clients.blocked",
-      "text_align": "center",
+      "custom_unit": null,
       "query": "sum:redis.clients.blocked{$scope}",
       "text_size": "auto",
-      "autoscale": true,
+      "title_size": 16,
       "title": true,
       "aggregator": "max",
       "title_align": "left",
-      "custom_unit": null,
+      "text_align": "center",
       "width": 47,
       "timeframe": "5m",
       "legend_size": "0",
@@ -121,7 +93,7 @@
       "title_text": "Blocked clients",
       "calc_func": "raw",
       "metric_type": "standard",
-      "title_size": 16,
+      "autoscale": true,
       "height": 13,
       "legend": false,
       "conditional_formats": [
@@ -145,13 +117,13 @@
       "is_valid_query": true,
       "tile_def": {
         "autoscale": true,
+        "custom_unit": null,
         "text_align": "center",
         "precision": 0,
-        "custom_unit": null,
         "viz": "timeseries",
         "requests": [
           {
-            "q": "sum:<< MetricPrefix >>p_redis.p_redis_info_clients_blocked_clients{$scope}",
+            "q": "sum:datadog.nozzle.p_redis.p_redis_info_clients_blocked_clients{$scope}",
             "aggregator": "max",
             "conditional_formats": [
               {
@@ -190,15 +162,18 @@
         "viz": "timeseries",
         "requests": [
           {
-            "q": "sum:<< MetricPrefix >>p_redis.p_redis_info_clients_connected_clients{$scope}",
+            "q": "sum:datadog.nozzle.p_redis.p_redis_info_clients_connected_clients{$scope}",
             "aggregator": "avg",
-            "conditional_formats": [],
-            "type": "area",
             "style": {
-              "palette": "cool"
-            }
+              "width": "normal",
+              "palette": "cool",
+              "type": "solid"
+            },
+            "type": "area",
+            "conditional_formats": []
           }
-        ]
+        ],
+        "autoscale": true
       },
       "width": 47,
       "timeframe": "1d",
@@ -210,14 +185,14 @@
     },
     {
       "metric": "redis.rdb.changes_since_last",
-      "text_align": "left",
+      "custom_unit": null,
       "query": "sum:redis.rdb.changes_since_last{$scope}",
       "text_size": "auto",
-      "autoscale": true,
+      "title_size": 16,
       "title": true,
       "aggregator": "avg",
       "title_align": "left",
-      "custom_unit": null,
+      "text_align": "left",
       "width": 47,
       "timeframe": "5m",
       "legend_size": "0",
@@ -226,10 +201,10 @@
         "$scope"
       ],
       "precision": 2,
-      "title_text": "Changes since save",
+      "title_text": "Changes since save (each instance)",
       "calc_func": "raw",
       "metric_type": "standard",
-      "title_size": 16,
+      "autoscale": true,
       "height": 13,
       "legend": false,
       "conditional_formats": [
@@ -253,14 +228,20 @@
       "is_valid_query": true,
       "tile_def": {
         "autoscale": true,
+        "custom_unit": null,
         "text_align": "left",
         "precision": 2,
-        "custom_unit": null,
         "viz": "timeseries",
         "requests": [
           {
-            "q": "sum:<< MetricPrefix >>p_redis.p_redis_info_persistence_rdb_changes_since_last_save{$scope}",
+            "q": "sum:datadog.nozzle.p_redis.p_redis_info_persistence_rdb_changes_since_last_save{$scope} by {ip}",
             "aggregator": "avg",
+            "style": {
+              "width": "normal",
+              "palette": "dog_classic",
+              "type": "solid"
+            },
+            "type": "line",
             "conditional_formats": [
               {
                 "palette": "white_on_red",
@@ -278,8 +259,7 @@
                 "invert": false,
                 "custom_fg_color": null
               }
-            ],
-            "type": "line"
+            ]
           }
         ]
       },
@@ -292,21 +272,24 @@
       "title_size": 16,
       "title": true,
       "title_align": "left",
-      "title_text": "Commands per second",
+      "title_text": "Commands per second (each service)",
       "height": 13,
       "tile_def": {
         "viz": "timeseries",
         "requests": [
           {
-            "q": "per_second(avg:<< MetricPrefix >>p_redis.p_redis_info_stats_total_commands_processed{$scope})",
+            "q": "per_second(avg:datadog.nozzle.p_redis.p_redis_info_stats_total_commands_processed{$scope} by {ip})",
             "aggregator": "avg",
-            "conditional_formats": [],
-            "type": "line",
             "style": {
-              "palette": "grey"
-            }
+              "width": "normal",
+              "palette": "grey",
+              "type": "solid"
+            },
+            "type": "line",
+            "conditional_formats": []
           }
-        ]
+        ],
+        "autoscale": true
       },
       "width": 47,
       "timeframe": "4h",
@@ -314,9 +297,88 @@
       "x": 49,
       "legend_size": "0",
       "type": "timeseries",
-      "legend": false
+      "legend": false,
+    },
+    {
+      "board_id": 279124,
+      "title_size": 16,
+      "title": true,
+      "title_align": "left",
+      "title_text": "Uptime per day (per instance)",
+      "height": 14,
+      "tile_def": {
+        "viz": "timeseries",
+        "status": "done",
+        "requests": [
+          {
+            "q": "((avg:datadog.nozzle.p_redis.p_redis_info_stats_pubsub_channels{$scope} by {ip}.rollup(count, 86400)*30)/dt(avg:datadog.nozzle.p_redis.p_redis_info_stats_pubsub_channels{$scope} by {ip}.rollup(count, 86400)))*100",
+            "aggregator": "avg",
+            "style": {
+              "width": "normal",
+              "palette": "dog_classic",
+              "type": "solid"
+            },
+            "type": "line",
+            "conditional_formats": []
+          }
+        ],
+        "autoscale": true,
+        "yaxis": {
+          "max": "100",
+          "includeZero": false
+        }
+      },
+      "width": 95,
+      "timeframe": "1mo",
+      "y": 49,
+      "x": 1,
+      "legend_size": "0",
+      "type": "timeseries",
+      "legend": false,
+      "isShared": false
+    },
+    {
+      "board_id": 279124,
+      "title_size": 16,
+      "title": true,
+      "title_align": "left",
+      "title_text": "Uptime per day (average of all instances)",
+      "height": 14,
+      "tile_def": {
+        "viz": "timeseries",
+        "status": "done",
+        "requests": [
+          {
+            "q": "((avg:datadog.nozzle.p_redis.p_redis_info_stats_pubsub_channels{$scope}.rollup(count, 86400)*30)/dt(avg:datadog.nozzle.p_redis.p_redis_info_stats_pubsub_channels{$scope}.rollup(count, 86400)))*100",
+            "aggregator": "avg",
+            "style": {
+              "width": "normal",
+              "palette": "dog_classic",
+              "type": "solid"
+            },
+            "type": "line",
+            "conditional_formats": []
+          }
+        ],
+        "autoscale": true,
+        "yaxis": {
+          "max": "100",
+          "includeZero": false
+        }
+      },
+      "width": 95,
+      "timeframe": "1mo",
+      "y": 66,
+      "x": 1,
+      "legend_size": "0",
+      "type": "timeseries",
+      "legend": false,
+      "isShared": false
     }
   ],
   "shared": false,
-  "title_edited": false
+  "disableCog": false,
+  "id": 279124,
+  "title_edited": false,
+  "isShared": false
 }
